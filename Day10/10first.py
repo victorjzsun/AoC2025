@@ -27,20 +27,21 @@ def checkAll(epoch, start, switches, length):
   if epoch > (len(switches) // 2):
     flipped = True
     epoch = len(switches) - epoch
-  indices = -1
+  indicesAsNum = -1
   end = len(switches) ** epoch
-  while indices != end:
-    indices += 1
-    # print(unIntWithPadding(indices, len(switches), epoch))
-    # print(["".join([str(x) for x in unIntWithPadding(switches[i],2, length)]) for i in range(len(switches)) if i not in unIntWithPadding(indices, len(switches), epoch)])
+  while indicesAsNum != end:
+    indicesAsNum += 1
+    indices = unIntWithPadding(indicesAsNum, numSwitches, epoch)
+    # print(indices)
+    # print(["".join([str(x) for x in unIntWithPadding(switches[i],2, length)]) for i in range(numSwitches) if i not in indices])
     if applySwitches(start, (
-      [switches[i] for i in unIntWithPadding(indices, numSwitches, epoch)]
+      [switches[i] for i in indices]
       if not flipped else
-      [switches[i] for i in range(numSwitches) if i not in unIntWithPadding(indices, numSwitches, epoch)]
+      [switches[i] for i in range(numSwitches) if i not in indices]
     )):
-      resultIndices = unIntWithPadding(indices, numSwitches, epoch)
+      resultIndices = indices
       if flipped:
-        resultIndices = [i for i in range(numSwitches) if i not in unIntWithPadding(indices, numSwitches, epoch)]
+        resultIndices = [i for i in range(numSwitches) if i not in indices]
         epoch = numSwitches - epoch
       return epoch, resultIndices
   return None, None

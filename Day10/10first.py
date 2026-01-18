@@ -29,9 +29,12 @@ def checkAll(epoch, start, switches, length):
     epoch = len(switches) - epoch
   indicesAsNum = -1
   end = len(switches) ** epoch
-  while indicesAsNum != end:
+  while indicesAsNum != end - 1:
     indicesAsNum += 1
     indices = unIntWithPadding(indicesAsNum, numSwitches, epoch)
+    # Check for duplicate switches when counting backwards
+    if flipped and len(set(indices)) < epoch:
+      continue
     # print(indices)
     # print(["".join([str(x) for x in unIntWithPadding(switches[i],2, length)]) for i in range(numSwitches) if i not in indices])
     if applySwitches(start, (
@@ -103,7 +106,7 @@ with open("input.txt") as fIn:
         raise Exception("using all switches didn't work")
       else:
         total += len(switches)
-    print(f"Line {str(lineCount)} indices {indices}")
+    # print(f"Line {str(lineCount)} epoch {epoch} indices {indices} lengthDifference {len(indices)-epoch}")
 
 print(total)
 """
